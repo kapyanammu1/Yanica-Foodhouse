@@ -1,0 +1,21 @@
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Web Application</title>
+  <!-- Add your CSS and JavaScript files here -->
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="{% url 'item_list' %}">Item List</a></li>
+    </ul>
+  </nav>
+
+  <div class="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+</html>
