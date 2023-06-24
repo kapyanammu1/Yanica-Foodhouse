@@ -2,6 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Item
 from .forms import ItemForm
+from django.contrib import messages
+
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
 
 
 # Create your views here.
@@ -39,3 +44,22 @@ def item_delete(request, pk):
         item.delete()
         return redirect('item_list')
     return render(request, 'item_delete.html', {'item': item})
+
+def sendEmail(request):
+    if request.method == 'POST':
+        template = render_to_string('email_template.html', {
+            "name": request.POST['name'],
+            "email": request.POST['email'],
+            "message": request.POST['message'],
+        })
+
+        email = EmailMessage(
+            request.POST['subject'],
+            template,
+            settings.EMAIL_HOST_USER,
+            ['xtianized1@gmail.com'],
+        )
+        email.fail_silently=False
+        email.send()
+
+    return render(request, 'EmailSent.html')
